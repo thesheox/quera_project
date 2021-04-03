@@ -13,4 +13,4 @@ class CharitySerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    passs
+    pass
