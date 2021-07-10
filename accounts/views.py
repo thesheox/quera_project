@@ -8,7 +8,14 @@ from .serializers import UserSerializer
 
 
 class LogoutAPIView(APIView):
-    pass
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        request.user.auth_token.delete()
+        return Response(
+            data={'message': f'Bye {request.user.username}!'},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 
 class UserRegistration(APIView):

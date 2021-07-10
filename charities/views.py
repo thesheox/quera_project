@@ -30,10 +30,10 @@ class Tasks(generics.ListCreateAPIView):
             **request.data,
             "charity_id": request.user.charity.id
         }
-        serializer = self.serializer_class(data = data)
-        serializer.is_valid(raise_exception = True)
+        serializer = self.serializer_class(data=data)
+        serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
