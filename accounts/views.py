@@ -18,5 +18,8 @@ class LogoutAPIView(APIView):
         )
 
 
-class UserRegistration(APIView):
-    pass
+class UserRegistration(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    authentication_classes = []
+    serializer_class = UserSerializer
+
