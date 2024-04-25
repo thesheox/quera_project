@@ -30,17 +30,24 @@ class UserRegistration(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class BenefactorRegistration(generics.CreateAPIView):
-    queryset = Benefactor.objects.all()
-    serializer_class = BenefactorSerializer
+class BenefactorRegistration(APIView):
+    permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        BenefactorSerializer.save(user=self.request.user)
+    def post(self, request):
+        serializer = BenefactorSerializer(data=request.data, context={'request': request})
 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CharityRegistration(generics.CreateAPIView):
-    queryset = Charity.objects.all()
-    serializer_class = CharitySerializer
+    permission_classes = [IsAuthenticated]
 
-    def CharitySerializer(self, serializer):
-        serializer.save(user=self.request.user)
+    def post(self, request):
+        serializer = CharitySerializer(data=request.data, context={'request': request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -25,8 +25,18 @@ class BenefactorSerializer(serializers.ModelSerializer):
         model = Benefactor
         fields = ['experience', 'free_time_per_week']
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        benefactor = Benefactor.objects.create(user=user, **validated_data)
+        return benefactor
+
 
 class CharitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Charity
         fields = ['name', 'reg_number']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        charity = Charity.objects.create(user=user, **validated_data)
+        return charity
