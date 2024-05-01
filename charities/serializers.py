@@ -5,12 +5,22 @@ from .models import Charity, Task
 
 
 class BenefactorSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Benefactor
+        fields = ['experience', 'free_time_per_week']
 
+    def save(self, **kwargs):
+        kwargs['user'] = self.context['request'].user
+        super().save(**kwargs)
 
 class CharitySerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Charity
+        fields = ['name', 'reg_number']
 
+    def save(self, **kwargs):
+        kwargs['user'] = self.context['request'].user
+        super().save(**kwargs)
 
 class TaskSerializer(serializers.ModelSerializer):
     state = serializers.ChoiceField(read_only=True, choices=Task.TaskStatus.choices)

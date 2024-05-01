@@ -1,4 +1,5 @@
 from rest_framework import status, generics
+from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
@@ -11,14 +12,24 @@ from charities.serializers import (
 )
 
 
-class BenefactorRegistration(APIView):
-    pass
 
+@api_view(['POST'])
+def BenefactorRegistration(request):
+    if request.method == 'POST':
+        serializer = BenefactorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CharityRegistration(APIView):
-    pass
-
-
+@api_view(['POST'])
+def CharityRegistration(request):
+    if request.method == 'POST':
+        serializer = CharitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class Tasks(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
@@ -30,10 +41,10 @@ class Tasks(generics.ListCreateAPIView):
             **request.data,
             "charity_id": request.user.charity.id
         }
-        serializer = self.serializer_class(data=data)
-        serializer.is_valid(raise_exception=True)
+        serializer = self.serializer_class(data = data)
+        serializer.is_valid(raise_exception = True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status = status.HTTP_201_CREATED)
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
