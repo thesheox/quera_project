@@ -45,7 +45,6 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
 ]
-
 LOCAL_APPS = [
     "accounts.apps.AccountsConfig",
     "charities.apps.CharitiesConfig",
