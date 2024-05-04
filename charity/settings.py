@@ -41,7 +41,6 @@ DJANGO_DEFAULT_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
 ]
-
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
